@@ -16,7 +16,7 @@ namespace ChatApplicationYT.Hub
 		{
 			await Groups.AddToGroupAsync(Context.ConnectionId, userConnection.room!);
 			_connection[Context.ConnectionId] = userConnection;
-			await Clients.Groups(userConnection.room!).SendAsync("ReceiveMessage", "Lets Program Bot", $"{userConnection.user} has Joined the Groups");
+			await Clients.Groups(userConnection.room!).SendAsync("ReceiveMessage", "Lets Program Bot", $"{userConnection.user} has Joined the Groups", DateTime.Now);
 			await SendConnectedUser(userConnection.room!);
 		}
 
@@ -35,8 +35,9 @@ namespace ChatApplicationYT.Hub
 				return base.OnDisconnectedAsync(exception);
 
 			}
+			_connection.Remove(Context.ConnectionId);
 			Clients.Group(connection.room!)
-				.SendAsync("ReceiveMessage", "Let program Bot", $"{connection.user} has left the group");
+				.SendAsync("ReceiveMessage", "Let program Bot", $"{connection.user} has left the group", DateTime.Now);
 			SendConnectedUser(connection.room);
 			return base.OnDisconnectedAsync(exception);
 		}
