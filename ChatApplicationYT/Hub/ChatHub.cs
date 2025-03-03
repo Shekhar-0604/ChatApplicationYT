@@ -30,7 +30,7 @@ namespace ChatApplicationYT.Hub
 
 		public override Task OnDisconnectedAsync(Exception? exception)
 		{
-			if (_connection.TryGetValue(Context.ConnectionId, out UserRoomConnection connection))
+			if (!_connection.TryGetValue(Context.ConnectionId, out UserRoomConnection connection))
 			{
 				return base.OnDisconnectedAsync(exception);
 
